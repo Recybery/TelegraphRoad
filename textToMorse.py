@@ -59,7 +59,7 @@ def MorseToText(a):
 		if c!=-1:
 				B+=c
 	return B
-#print MorseToText(TextToMorse("ni hao shi jie 1234567890 the lazy fox jumped over the brown dog"))
+print MorseToText(TextToMorse("ni hao shi jie 1234567890 the lazy fox jumped over the quick brown dog"))
 '''
 for i in test:
 		B+=D[i]+"/"
