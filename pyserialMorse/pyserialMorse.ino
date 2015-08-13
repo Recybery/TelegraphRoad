@@ -37,8 +37,9 @@ void setup() {
   // initialize serial communications at 9600 bps:
   Serial.begin(9600); 
 
-  di=Serial.readStringUntil('\n').toInt();
-  da=3*di;
+  //di=Serial.readStringUntil('\n').toInt();
+  di=100;// make same as python if above line doesn't work
+  da=3*di;//as I suspect it won't
 }
 
 void loop() {
@@ -60,7 +61,7 @@ void loop() {
     Serial.write("-\n");
     up=true;
  }
- else
+
 // */
   // print the results to the serial monitor:
   //Serial.write("lol");
@@ -78,7 +79,7 @@ void loop() {
   // wait 2 milliseconds before the next loop
   // for the analog-to-digital converter to settle
   // after the last reading:
-  delay(2);                     
+  delay(di);                     
 }
 void Morse(String A)
 {
