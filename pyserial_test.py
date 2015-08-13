@@ -1,4 +1,4 @@
-from textToMorse import function
+from textToMorse import TextToMorse
 import serial
 import string
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
@@ -12,7 +12,8 @@ while True:
 
 #while True:
 #thing="gasfg"
-	ser.write(function(test)+"\n")
+	ser.write(TextToMorse(test)+"\n")
+	print ser.readln()
 #line = ser.readline()
 #print line
 ser.close()

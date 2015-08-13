@@ -13,7 +13,7 @@
  
  created 29 Dec. 2008
  modified 9 Apr 2012
- by Tom Igoe
+ by Tom Igoe (pruit????)
  
  This example code is in the public domain.
  
@@ -23,10 +23,11 @@
 // to the pins used:
 const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
 const int analogOutPin = 13; // Analog output pin that the LED is attached to
-
-const int di= 200;
-const int charPause= 300;
-const int wordPause= 400;
+const int inPin= 7;
+int di;
+int da;
+const int wordPause= 7*di;
+boolean up=false;
 
 int sensorValue = 0;        // value read from the pot
 int outputValue = 0;        // value output to the PWM (analog out)
@@ -35,25 +36,40 @@ void setup() {
   
   // initialize serial communications at 9600 bps:
   Serial.begin(9600); 
+
+  di=Serial.readStringUntil('\n').toInt();
+  da=3*di;
 }
 
 void loop() {
   // read the analog in value:
-  sensorValue = analogRead(analogInPin);            
+  //sensorValue = analogRead(analogInPin);            
   // map it to the range of the analog out:
   outputValue = map(sensorValue, 0, 1023, 0, 255);  
   // change the analog out value:
-  analogWrite(analogOutPin, outputValue);           
+ // analogWrite(analogOutPin, outputValue);           
   //Morse(".../---/...");  
-  
+//  /*
+ if( digitalRead(inPin)==HIGH)
+ {
+    Serial.write("+\n");
+    up=false;
+ }
+ else if (!up)
+ {
+    Serial.write("-\n");
+    up=true;
+ }
+ else
+// */
   // print the results to the serial monitor:
-  
   //Serial.write("lol");
   a = Serial.readStringUntil('\n');
-  Serial.println(a);
-  Morse(a);
+  Serial.println(a);// is this neccesary? isn't a already written in Serial?
+  if(a!="+"||a!="-")
+    Morse(a);
   //Serial.print(Serial.read());
-  /*
+  /*//kinda part of another project at this point
   Serial.print("sensor = " );                       
   Serial.print(sensorValue);      
   Serial.print("\t output = ");      
@@ -80,15 +96,15 @@ void Morse(String A)
     if( A.charAt(i)=='-')
     {
 //       digitalWrite(analogOutPin, outputValue);      
-      tone(13, 440, 2*di);
+      tone(13, 440, da);
 //      delay(2*di);
 //      digitalWrite(analogOutPin, 0); 
 //       noTone();
-      delay(2*di);
+      delay(da);
     }
     if( A.charAt(i)=='/')
     {
-    delay(charPause);
+    delay(da);
     }
     if( A.charAt(i)==' ')
     {

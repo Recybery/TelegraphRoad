@@ -70,6 +70,7 @@ D[interval (wait)]=".-..."
 #D['']
 
 def TextToMorse(a):
+	a=string.lower(a)
 	B=""
 	for i in  range(0,len(a)):
 		B+=D[a[i]]+"/"
@@ -84,7 +85,12 @@ def getKey(a):
 			
 def MorseToText(a):
 	B=""
-	F=a.split("/")
+	try:
+		F=a.split("/")
+
+	except AttributeError:
+		pass
+	
 	for i in F:
 		c= getKey(i)
 		if c!=-1:
@@ -100,12 +106,12 @@ def withDelChar(string): # deletes previous character if character is delete cha
 			out+=string[i ]
 	return out
 #'''
-'''
 
+'''
 # use to test above funcions if need
-S="ciao mondo 12345678990 /f /?'==.,$ \"laser\" \'\' the state\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f   fox brown dog lazy quick over jumped the the"
+S="hate\x7f 12345678990 /?=.,$ \"fox\" '\' GG brown dog lazy quick over jumped the the"
 T=withDelChar(S)
-U=TextToMorse(T)
+U=TextToMorse(S)
 V=MorseToText(U)
 print T
 print U
