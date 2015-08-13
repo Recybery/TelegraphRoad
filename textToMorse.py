@@ -1,7 +1,11 @@
+
 import string
 #test=string.lower(raw_input('-->'))
-
 D= {}
+'''
+import non_ASCII # 
+non_ASCII.addStuff(D)
+#'''
 D["a"]=".-"
 D["b"]="-..."
 D["c"]="-.-."
@@ -29,20 +33,47 @@ D["x"]="-..-"
 D["y"]="-.--"
 D["z"]="--.."
 D[" "]=""
-D['1']="....-"
-D['2']="...--"
-D['3']="..---"
-D['4']=".----"
-D['5']="-----"
-D['6']="----."
-D['7']="---.."
-D['8']="--..."
-D['9']="-...."
-D['0']="....."
+D['1']=".----"
+D['2']="..---"
+D['3']="...--"
+D['4']="....-"
+D['5']="....."
+D['6']="-...."
+D['7']="--..."
+D['8']="---.."
+D['9']="----."
+D['0']="-----"
+D['.']=".-.-.-"
+D[',']="--..--"
+D['?']="..--.."
+D['/']="-..-."
+D['@']=".--.-."
+D[':']="---..."
+D['-']="-....-"
+D['\'' ]=".----."#apostrophe
+D['/']="-..-."
+D['$']="...-..-"
+D['"']=".-..-."
+D[';']="-.-.-."
+D['=']="-...-"
+D[chr(127)]="........"#error or erase could be used to erase character in output string with WithDelete function
+'''
+old morse code just here for thouroughness/ maybe we'll implement someday
+#D["seperation sign"]=".-..-"
+D["brackets"]="-.--.-"
+D["underline"}=..--.-"
+D["starting signal"]="-.-.-"
+D["end of Message"]=".-.-."
+D[closing down]="...-.-"
+D[interval (wait)]=".-..."
+'''
+#D['']
+
 def TextToMorse(a):
 	B=""
-	for i in a:
-		B+=D[i]+"/"
+	for i in  range(0,len(a)):
+		B+=D[a[i]]+"/"
+		
 	return B
 
 def getKey(a):
@@ -59,10 +90,24 @@ def MorseToText(a):
 		if c!=-1:
 				B+=c
 	return B
-print MorseToText(TextToMorse("ni hao shi jie 1234567890 the lazy fox jumped over the quick brown dog"))
-'''
-for i in test:
-		B+=D[i]+"/"
-print B
 #'''
+def withDelChar(string): # deletes previous character if character is delete character
+	out=""
+	for i in range(0,len(string)):
+		if(string[i]==chr(127) ):
+			out	=out[:-1]
+		else:
+			out+=string[i ]
+	return out
+#'''
+'''
 
+# use to test above funcions if need
+S="ciao mondo 12345678990 /f /?'==.,$ \"laser\" \'\' the state\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f\x7f   fox brown dog lazy quick over jumped the the"
+T=withDelChar(S)
+U=TextToMorse(T)
+V=MorseToText(U)
+print T
+print U
+print V 
+#'''
