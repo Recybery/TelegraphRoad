@@ -21,12 +21,15 @@ pygame.display.set_caption('morse code!!')
 pygame.display.flip()
 fontobject = pygame.font.Font(None,50)
 white=(255,255,255)
-di=0.1 #length seconds of a '.' i.e di in morse
+di=0.15 #length seconds of a '.' i.e di in morse
 da=3*di #from internet: dah=3 di's
 def  main():
-	''' #this is line 27
-	ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
-	ser.write(str(di*1000))+"\n")   #trys to synchronizes speed of python and pyserial
+#	''' #this is line 27
+	ser = serial.Serial(
+					#'/pyserialMorse/COM3 (Arduino Uno)',
+					'C://dev/ttyACM0',
+					 9600, timeout=1)
+	#ser.write(str(di*1000)+"\n")   #trys to synchronizes speed of python and pyserial
 	#'''							#arduino di in milliseconds, python in seconds
 #Initialize Everything
 	L=""
@@ -54,7 +57,7 @@ def  main():
 		#delays loop so doesn't go too fast
 		clock.tick(1/(di))
 		gotten =  pygame.event.get()
-		'''#this is line 57
+	#	'''#this is line 57
 		a=ser.readline()
 		if(a=="+"): # "+" and "-" are symbols not handled by textToMorse.py so this program can't confuse
 					#pyserial input from a keyboard and an arduino 
@@ -123,6 +126,12 @@ def  main():
 				elif event.type== KEYDOWN and event.key==K_SPACE:
 					print "/ /",
 					L+="/ /"
+				elif event.type==KEYDOWN and event.key==K_F2:
+					#print""
+					print textToMorse.MorseToText(L)
+					#print ""
+					L=""
+					autoreturn=0
     #Draw Everything
     
         #pygame.display.flip()
@@ -134,4 +143,4 @@ def  main():
 #this calls the 'main' function when this script is executed
 if __name__ == '__main__': a= main()
 print textToMorse.MorseToText(a)
-
+ser.close()

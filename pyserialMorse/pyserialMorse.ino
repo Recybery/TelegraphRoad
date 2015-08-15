@@ -33,33 +33,35 @@ int sensorValue = 0;        // value read from the pot
 int outputValue = 0;        // value output to the PWM (analog out)
 String a ;
 void setup() {
-  
-  // initialize serial communications at 9600 bps:
-  Serial.begin(9600); 
-
+     
+  Serial.begin(9600);
+  digitalWrite(analogOutPin,HIGH);
+ // analogWrite(A0,HIGH);
   //di=Serial.readStringUntil('\n').toInt();
-  di=100;// make same as python if above line doesn't work
+  di=50;// make same as python if above line doesn't work
   da=3*di;//as I suspect it won't
+  
 }
-
 void loop() {
   // read the analog in value:
   //sensorValue = analogRead(analogInPin);            
   // map it to the range of the analog out:
-  outputValue = map(sensorValue, 0, 1023, 0, 255);  
+ // outputValue = map(sensorValue, 0, 1023, 0, 255);  
   // change the analog out value:
  // analogWrite(analogOutPin, outputValue);           
   //Morse(".../---/...");  
 //  /*
- if( digitalRead(inPin)==HIGH)
+//  print(digitalRead(inPin));
+ if( digitalRead(inPin)==LOW)
  {
-    Serial.write("+\n");
-    up=false;
+    Serial.print("+");
+    //up=false;
  }
- else if (!up)
+ else if (digitalRead(inPin)==HIGH//&&!up)
+ )
  {
-    Serial.write("-\n");
-    up=true;
+    Serial.print("-");
+    //up=true;
  }
 
 // */
