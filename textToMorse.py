@@ -2,7 +2,7 @@
 import string
 #test=string.lower(raw_input('-->'))
 D= {}
-'''
+#'''
 import non_ASCII # 
 non_ASCII.addStuff(D)
 #'''
