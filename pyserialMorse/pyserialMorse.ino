@@ -22,7 +22,6 @@ void loop() {
     Serial.print("+");
     up=true;
  }
-
  else if( digitalRead(inPin)==LOW&&up)
  {
     Serial.print("_");
