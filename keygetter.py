@@ -8,9 +8,9 @@ pygame.init()
 screen = pygame.display.set_mode((700, 200))
 pygame.display.set_caption('morse code!!')
 fontobject = pygame.font.Font(None,50)
-white=(255,255,255)
 haveSer=True
-di=0.1 #length seconds of a '.' i.e di in morse
+
+di=0.1
 da=3*di #from internet: dah=3 di's
 slack=4 # increases amount of time required for idle keyboard
 		# or arduino to activate a slash compared to the
@@ -40,10 +40,10 @@ def readSer(gotten):
 	return gotten
 
 def screenPrint(s,b):
-	screen.blit(fontobject.render(s, 10,white),(0,b))	
+	screen.blit(fontobject.render(s, 10,(255,255,255)),(0,b))	
 	pygame.display.flip()
 def  main():
-
+	autospace=True
 	clock = pygame.time.Clock()	
 	pygame.key.set_repeat(1,1)## makes it so that holding down key creates events
 	
@@ -54,9 +54,7 @@ def  main():
 	L=""
 	while not ultraBreak:
 
-		#clock.tick(3)
 		screenPrint(L,0)
-
 		gotten =  pygame.event.get()
 		if haveSer :
 			gotten =readSer(gotten)
@@ -65,7 +63,7 @@ def  main():
 		if(autoreturn>=40):# may need to be adjusted per display or elimiated
 			print ""
 			autoreturn=0		
-		if (gotten == [] ):
+		if (gotten == [] and autospace):
 			if slash<=7+(2*slack):
 				slash+=1 
 			if slash==3+slack :
@@ -80,8 +78,33 @@ def  main():
 		else:
 			slash=0
 			for event in gotten:
-				#if event.type==KEYUP:
-				if event.type == QUIT:
+				if event.type==KEYDOWN and event.key==K_TAB:
+					autospace= not autospace
+				elif event.type==KEYDOWN and event.key==K_q:
+					print ".",
+					L+="."
+					autoreturn+=1
+				elif event.type==KEYDOWN and event.key==K_w:
+					print "-",
+					L+="-"
+					autoreturn+=1
+				elif event.type==KEYDOWN and event.key==K_PERIOD :
+					print ".",
+					L+="."
+					autoreturn+=1
+				elif event.type==KEYDOWN and event.key==K_MINUS:
+					print "-",
+					L+="-"
+					autoreturn+=1
+				elif event.type==KEYDOWN and event.key==K_SLASH:
+					print "/",
+					L+="/"
+					autoreturn+=1
+				elif event.type==KEYDOWN and event.key==K_2:
+					print "/",
+					L+="/"
+					autoreturn+=1
+				elif event.type == QUIT:
 					return
 				elif event.type == KEYDOWN and event.key == K_1:
 					if down==False:
@@ -111,7 +134,7 @@ def  main():
 					L+="//"
 				elif event.type==KEYDOWN and event.key==K_F2:
 					print textToMorse.MorseToText(L)
-					L=""
+					#L=""
 					autoreturn=0
     	pygame.display.flip()
     	
