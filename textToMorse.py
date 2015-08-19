@@ -1,9 +1,11 @@
+#-*- coding: utf-8 -*-
 import string
 D= {}
 #'''
 import non_ASCII # 
 non_ASCII.addStuff(D)
 #'''
+
 D["a"]=".-"
 D["b"]="-..."
 D["c"]="-.-."
@@ -107,11 +109,14 @@ def withDelChar(string): # deletes previous character if character is delete cha
 
 '''
 # use to test above funcions if need
-S="hate\x7f 12345678990 /?=.,$ \"fox\" '\' GG brown dog lazy quick over jumped the the"
+#S="hate\x7f 12345678990 /?=.,$ \"fox\" '\' GG brown dog lazy quick over jumped the the äàéñōū"
+S='ä'
+j='\xa4'+'\xc3'
+print unicode(S)
 T=withDelChar(S)
 U=TextToMorse(S)
 V=MorseToText(U)
-print T
-print U
+print 
+print 
 print V 
 #'''

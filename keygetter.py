@@ -3,6 +3,7 @@ import textToMorse
 from pygame.locals import *
 import time
 import serial
+import os
 
 pygame.init()
 screen = pygame.display.set_mode((700, 200))
@@ -16,18 +17,14 @@ da=3*di #from internet: dah=3 di's
 L=""
 autoreturn=0
 try:
-	ser = serial.Serial(
-				'COM3',
+	ser = serial.Serial('Com3' if os.name=="nt" else '/dev/ttyACM0',
 				9600, timeout=di)
 except Exception, e:
-	try:
-		ser = serial.Serial(
-				'/dev/ttyACM0',#maybe different per machine
-				9600, timeout=di)
-	except Exception, e:
-			print "failed to set up serial for arduino"	
-			print "but thats ok!! just use the 1 key on your keyboard!!"
-			haveSer=False
+		print "failed to set up serial for arduino"	
+		print "but thats ok!! just use the 1 key on your keyboard or the mouse button!!"
+		haveSer=False
+def thing(s):
+	print (s if s=="what" else "doh")
 def readSer(gotten):
  	a=ser.read() # delays %timeout%(i.e. di) aeconds
 	if(a=="+"): # "+" and "-" are symbols not handled by textToMorse.py so this program can't confuse
@@ -66,10 +63,9 @@ def  main():
 	#L=""
 	ultraBreak=False
 	
-	
 	while not ultraBreak:
 
-		screenPrint(L,0)
+		screenPrint(L,80)
 		gotten =  pygame.event.get()
 		if haveSer :
 			gotten =readSer(gotten)
@@ -84,12 +80,22 @@ def  main():
 			if slash==slashWhen or slash== slashWhen2 :
 					outPut("/")		
 		else:
+			
 			slash=0
 			for event in gotten:
-				if event.type==KEYDOWN:
+				#print event
+				#'''
+				if event.type==MOUSEBUTTONDOWN:
+					if(event.button==1):
+						if down==False:
+							down=True
+							start = time.time()	
+				#'''
+				elif event.type==KEYDOWN:
 					if event.key==K_TAB:
 						autospace= not autospace
 					elif  event.key==K_q:
+						print event.key
 						outPut(".")
 					elif  event.key==K_w:
 						outPut("-")
@@ -110,7 +116,12 @@ def  main():
 						print ""
 						autoreturn=0
 					elif event.key ==K_F1:
-						screenPrint(textToMorse.MorseToText(L),20)
+						print textToMorse.MorseToText(L)
+						screen.fill((0,0,0))
+						screenPrint(L,0)
+						screenPrint(textToMorse.MorseToText(L),40)
+						L=""
+						autoreturn=0
 					elif event.key ==K_ESCAPE:
 						print ""
 						ultraBreak=True		
@@ -118,9 +129,7 @@ def  main():
 						outPut("/")
 						outPut("/")
 						slash=slashWhen2+1
-					elif event.key==K_F2:
-						print textToMorse.MorseToText(L)
-						autoreturn=0
+
 				elif event.type == KEYUP and event.key == K_1:
 					down=False
 					end = time.time()
@@ -130,6 +139,20 @@ def  main():
 						outPut(".")
 				elif event.type == QUIT:
 					return
+				elif event.type ==MOUSEBUTTONUP and event.button==1:
+					down=False
+					end = time.time()
+					if end-start>=da:
+						outPut("-")
+					else:
+						outPut(".")
+				elif event.type ==MOUSEBUTTONUP and event.button==3:
+					print textToMorse.MorseToText(L)
+					screen.fill((0,0,0))
+					screenPrint(L,0)
+					screenPrint(textToMorse.MorseToText(L),40)
+					L=""
+					autoreturn=0
 	return L
 
 if __name__ == '__main__': a=main()
