@@ -4,6 +4,7 @@ from pygame.locals import *
 import time
 import serial
 import os
+from subprocess import call
 
 pygame.init()
 screen = pygame.display.set_mode((700, 200))
@@ -151,6 +152,12 @@ def  main():
 					screen.fill((0,0,0))
 					screenPrint(L,0)
 					screenPrint(textToMorse.MorseToText(L),40)
+					try:	
+						call('echo  %s > text.tmp'  % textToMorse.MorseToText(L), shell=True)
+						call("cat text.tmp | espeak ", shell=True)
+						os.remove("test.tmp")
+					except OSError:
+						pass
 					L=""
 					autoreturn=0
 	return L
