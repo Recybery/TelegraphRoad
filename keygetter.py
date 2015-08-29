@@ -74,7 +74,7 @@ def  main():
 		if(autoreturn>=40):# may need to be adjusted per display or elimiated
 			print ""
 			autoreturn=0		
-		if (gotten == [] and autospace):
+		if (gotten == [] and autospace and not pygame.mouse.get_pressed()[0]):
 			if slash<=slashWhen2:
 				slash+=1 
 			if slash==slashWhen or slash== slashWhen2 :
